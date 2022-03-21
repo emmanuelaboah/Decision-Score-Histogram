@@ -50,7 +50,7 @@ class AnomalyScoreHist:
     def check_gtruth_dtype(self, ground_truth):
         g_truth = self.check_input_dtype(ground_truth)
 
-        warning_msg = 'ground truth needs to 1s (positive scores) and -1s (negative scores'
+        warning_msg = 'ground truth must be an array of 1s (positive scores) and -1s (negative scores)'
         assert all(label in [1, -1] for label in g_truth), warning_msg
         return g_truth
 
