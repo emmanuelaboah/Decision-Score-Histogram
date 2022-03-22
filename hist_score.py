@@ -41,7 +41,7 @@ class AnomalyScoreHist:
 
         else:
             try:
-                data = np.ndarray(input_data)
+                data = np.array(input_data)
             except:
                 raise Exception('Wrong data type')
             else:
