@@ -65,4 +65,7 @@ is the class label (1, -1).
 ## References
 Users can refer to our papers below for further insight and 
 examples:
+- Aboah Boateng E, Bruce JW. Unsupervised Machine Learning 
+Techniques for Detecting PLC Process Control Anomalies. Journal of Cybersecurity and Privacy. 
+2022; 2(2):220-244. https://doi.org/10.3390/jcp2020012
 
