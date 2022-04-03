@@ -45,6 +45,9 @@ from hist_score import AnomalyScoreHist
 fig = AnomalyScoreHist()
 fig.plot_hist(decision_scores, ground_truth)
 ```
+**Note**: The data class convention used in this work is:
+- 1: represents normal class
+- -1: represents the anomalous class
 
 ### Example
 
