@@ -32,7 +32,8 @@ Below is an example of how to use this histogram.
 classification algorithm.
 - Ground truth: binary class labels of normal (+1) and anomalous (-1)
 data instances.
-- **Input type**: ```list, numpy array, pandas DataFrame, pandas Series```
+- fig_name (Optional: string): name for saving output plot; default is 'hist_plot'
+- **Input data type**: ```list, numpy array, pandas DataFrame, pandas Series```
 
 **Output:**
 - Histogram visualization of true positives, true negatives, false
@@ -48,6 +49,7 @@ fig.plot_hist(decision_scores, ground_truth)
 **Note**: The data class convention used in this work is:
 - 1: represents normal class
 - -1: represents the anomalous class
+The code can also handle supervised binary predictions whereby 1: class A and -1: class B.
 
 ### Example
 
@@ -66,7 +68,7 @@ is the class label (1, -1).
 
 
 ## References
-Users can refer to our papers below for further insight and 
+Users can refer to our paper below for further insight and 
 examples:
 - Aboah Boateng E, Bruce JW. Unsupervised Machine Learning 
 Techniques for Detecting PLC Process Control Anomalies. Journal of Cybersecurity and Privacy. 
