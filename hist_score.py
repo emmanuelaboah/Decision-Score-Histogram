@@ -153,7 +153,7 @@ class AnomalyScoreHist:
                  bins=50, label='False Negative')
 
         plt.xlabel('Decision Score', fontsize=27, labelpad=10)
-        plt.ylabel('% Prediction', fontsize=27, labelpad=10)
+        plt.ylabel('Prediction', fontsize=27, labelpad=10)
         plt.xticks(fontsize=20)
         plt.yticks(fontsize=20)
         plt.xlim([-1.1, 1.1])
