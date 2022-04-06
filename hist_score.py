@@ -82,23 +82,33 @@ class AnomalyScoreHist:
             else:
                 continue
 
-        all_positives = [dec_score[idx] for idx in range(len(dec_score))
+        # Handle situations where input data is binary instead of scores (real numbers)
+        if len(np.unique(true_positives)) == 1 and true_positives[0] > 0:
+            if np.unique(false_positives) == np.unique(true_positives) or len(false_positives) == 0:
+
+                # Means input is binary
+                true_positives = [1] * len(true_positives)
+                false_positives = [1] * len(false_positives)
+
+        else:
+            # scores (real numbers) were provided
+            all_positives = [dec_score[idx] for idx in range(len(dec_score))
                          if dec_score[idx] >= 0]
+            pos_scaler = MinMaxScaler().fit(all_positives)
+
+            if len(true_positives) == 0:
+                true_positives = []
+            else:
+                true_positives = np.round(pos_scaler.transform(true_positives), 3)
+
+            if len(false_positives) == 0:
+                false_positives = []
+            else:
+                false_positives = np.round(pos_scaler.transform(false_positives), 3)
+        
         all_negatives = [dec_score[idx] for idx in range(len(dec_score))
-                         if dec_score[idx] < 0]
-
-        pos_scaler = MinMaxScaler().fit(all_positives)
-        neg_scaler = MinMaxScaler().fit(all_negatives)
-
-        if len(true_positives) == 0:
-            true_positives = []
-        else:
-            true_positives = np.round(pos_scaler.transform(true_positives), 3)
-
-        if len(false_positives) == 0:
-            false_positives = []
-        else:
-            false_positives = np.round(pos_scaler.transform(false_positives), 3)
+                         if dec_score[idx] < 0] 
+        neg_scaler = MinMaxScaler().fit(all_negatives) 
 
         if len(true_negatives) == 0:
             true_negatives = []
@@ -112,9 +122,26 @@ class AnomalyScoreHist:
 
         return true_positives, true_negatives, false_positives, false_negatives
 
+    def flip_negative_plot(self, negative_scores_norm):
+        '''
+        Because of the normalization of negative scores 
+        the negative half of the histogram needs to be flipped
+        which is what this function does.
+        '''
+        remainder, quotient = np.modf(-2 - negative_scores_norm)
+        final_neg_scores = np.where(quotient == -2, -1, remainder)
+
+        return final_neg_scores
+
     def plot_hist(self, dec_score, ground_truth, fig_name='hist_plot'):
         TP, TN, FP, FN = self.compute_hist_data(dec_score, ground_truth)
 
+        if len(TN) != 0:
+            TN = self.flip_negative_plot(TN)
+
+        if len(FN) != 0:
+            FN = self.flip_negative_plot(FN)
+        
         plt.figure(figsize=(9, 7))
         plt.hist(TP, weights=np.ones(len(TP)) / (len(TP) + len(FN)), facecolor='C0',
                  bins=50, label='True Positive', alpha=0.5)
@@ -138,4 +165,5 @@ class AnomalyScoreHist:
         save_plot(fig_name)
 
         plt.show()
+
 
