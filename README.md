@@ -28,11 +28,11 @@ binary classification of imbalanced datasets.
 Below is an example of how to use this histogram.
 
 **Input:**
-- Decision/Anomaly scores of detection or binary 
-classification algorithm.
-- Ground truth: binary class labels of normal (+1) and anomalous (-1)
-data instances.
-- fig_name (Optional: string): name for saving output plot; default is 'hist_plot'
+- decision_scores: Decision/Anomaly scores of detection or binary  
+classification algorithm  --> input to class object
+- ground_truth: binary class labels of normal (+1) and anomalous (-1)
+data instances  -->  input to class object
+- fig_name (Optional: string): name for saving output plot; default is 'hist_plot'  --> input to hist_plot method
 - **Input data type**: ```list, numpy array, pandas DataFrame, pandas Series```
 
 **Output:**
@@ -42,9 +42,8 @@ positives and false negatives with their prediction confidences.
 **General use case**
 ``` python
 from hist_score import AnomalyScoreHist
-
-fig = AnomalyScoreHist()
-fig.plot_hist(decision_scores, ground_truth)
+fig = AnomalyScoreHist(decision_scores, ground_truth)
+fig.plot_hist(fig_name)
 ```
 **Note**: The data class convention used in this work is:
 - 1: represents normal class
@@ -57,8 +56,8 @@ The code can also handle supervised binary predictions whereby 1: class A and -1
 ```python
 from hist_score import AnomalyScoreHist
 
-fig = AnomalyScoreHist()
-fig.plot_hist(test_dec, test['class'])
+fig = AnomalyScoreHist(test_dec, test['class'])
+fig.plot_hist('IF_histogram')
 ```
 where ```test_dec``` is the decision score output of isolation forest 
 detection algorithm on test set 2 of [TLIGHT dataset](https://github.com/emmanuelaboah/TLIGHT-SYSTEM/tree/main/Dataset)
