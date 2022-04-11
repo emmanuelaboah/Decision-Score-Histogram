@@ -32,6 +32,10 @@ class AnomalyScoreHist:
         algorithms involving binary predictions.
     """
 
+    def __init__(self, decision_scores, ground_truth):
+        self.decision_scores = decision_scores
+        self.ground_truth = ground_truth
+
     def check_input_dtype(self, input_data):
         if isinstance(input_data, np.ndarray):
             return input_data.reshape(-1, 1)
@@ -55,8 +59,8 @@ class AnomalyScoreHist:
         return g_truth
 
     def compute_hist_data(self, dec_score, ground_truth):
-        dec_score = self.check_input_dtype(dec_score)
-        ground_truth = self.check_gtruth_dtype(ground_truth)
+        dec_score = self.check_input_dtype(self.decision_scores)
+        ground_truth = self.check_gtruth_dtype(self.ground_truth)
 
         false_positives = []
         false_negatives = []
@@ -133,8 +137,9 @@ class AnomalyScoreHist:
 
         return final_neg_scores
 
-    def plot_hist(self, dec_score, ground_truth, fig_name='hist_plot'):
-        TP, TN, FP, FN = self.compute_hist_data(dec_score, ground_truth)
+    def plot_hist(self, fig_name='hist_plot'):
+        TP, TN, FP, FN = self.compute_hist_data(
+                                self.decision_scores, self.ground_truth)
 
         if len(TN) != 0:
             TN = self.flip_negative_plot(TN)
